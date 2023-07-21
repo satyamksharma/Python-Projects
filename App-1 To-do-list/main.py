@@ -1,5 +1,4 @@
-#storing data in text files
-
+todos = []
 print("Welcome to the todo list app")
 print("Menu - ")
 print("1.Add a todo")
@@ -9,32 +8,35 @@ print("4.Complete a todo")
 print("5.Exit")
 
 while True:
-
     user_action = input("Choose an Option : ")
     user_action = user_action.strip().lower()
     match user_action:
         case "add":
             todo = input("Enter a todo: ")
-            if todos.__contains__(todo):
-                print("Todo already exists")
             todos.append(todo)
+            with open("todo.txt", "w") as file:
+                for todo in todos:
+                    file.write(todo + "\n")
         case "show":
             for index, item in enumerate(todos):
                 print(f"{index + 1}. {item}")
-
         case "edit":
-            index = 1 + int(input("Enter the todo to edit(number): "))
+            index = int(input("Enter the todo to edit(number): ")) - 1
             new_todo = input("Enter the new todo: ")
             todos[index] = new_todo
+            with open("todo.txt", "w") as file:
+                for todo in todos:
+                    file.write(todo + "\n")
             print("Todo edited successfully")
-
         case "complete":
-            index = 1 + int(input("Enter the todo to complete(number): "))
+            index = int(input("Enter the todo to complete(number): ")) - 1
             todos.pop(index)
+            with open("todo.txt", "w") as file:
+                for todo in todos:
+                    file.write(todo + "\n")
         case "exit":
             break
         case _:
             print("Invalid action")
-
 
 print("Bye!")
