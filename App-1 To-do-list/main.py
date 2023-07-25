@@ -1,42 +1,38 @@
-todos = []
-print("Welcome to the todo list app")
-print("Menu - ")
-print("1.Add a todo")
-print("2.Show all todos")
-print("3.Edit a todo")
-print("4.Complete a todo")
-print("5.Exit")
-
 while True:
-    user_action = input("Choose an Option : ")
+    user_action = input("Type 'add', 'show', 'edit', 'delete', 'exit': ")
     user_action = user_action.strip().lower()
     match user_action:
         case "add":
-            todo = input("Enter a todo: ")
+            todo = input("Enter a new todo: ") + "\n"
+
+            with open("todos.txt", "r") as file:
+                todos = file.readlines()
+
             todos.append(todo)
-            with open("todo.txt", "w") as file:
-                for todo in todos:
-                    file.write(todo + "\n")
+
+            with open("todos.txt", "w") as file:
+                file.writelines(todos)
+            file.close()
         case "show":
             for index, item in enumerate(todos):
                 print(f"{index + 1}. {item}")
         case "edit":
-            index = int(input("Enter the todo to edit(number): ")) - 1
-            new_todo = input("Enter the new todo: ")
-            todos[index] = new_todo
+            number = int(input("Enter the number of the todo to edit: "))
+            number = number - 1
+            new_todo = input("Enter a new todo: ") + "\n"
+            todos[number] = new_todo
             with open("todo.txt", "w") as file:
-                for todo in todos:
-                    file.write(todo + "\n")
-            print("Todo edited successfully")
-        case "complete":
-            index = int(input("Enter the todo to complete(number): ")) - 1
-            todos.pop(index)
+                file.writelines(todos)
+            file.close()
+        case "delete":
+            number = int(input("Enter the number of the todo to delete: "))
+            number = number - 1
+            del todos[number]
             with open("todo.txt", "w") as file:
-                for todo in todos:
-                    file.write(todo + "\n")
+                file.writelines(todos)
+
+            file.close()
         case "exit":
             break
         case _:
-            print("Invalid action")
-
-print("Bye!")
+            print("Invalid input")
