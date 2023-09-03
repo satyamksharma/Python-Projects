@@ -3,10 +3,11 @@ while True:
     user_action = user_action.strip().lower()
     match user_action:
         case "add":
-            todo = input("Enter a new todo: ") + "\n"
+            todo = input("Enter a new todo: ")
 
             with open("todos.txt", "r") as file:
                 todos = file.readlines()
+            file.close()
 
             todos.append(todo)
 
@@ -14,6 +15,9 @@ while True:
                 file.writelines(todos)
             file.close()
         case "show":
+            with open("todos.txt", "r") as file:
+                todos = file.readlines()
+            file.close()
             for index, item in enumerate(todos):
                 print(f"{index + 1}. {item}")
         case "edit":
